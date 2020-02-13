@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ujian no.2</title>
+    <style>
+        table, th, td {
+           border: 1px solid black;
+        }
+     </style>
+</head>
+<body>
+    <center>
+        <table>
+    <tr><td>
+   Username : <input type="text" id="username"></input><br><br>
+   Password : <input type="password"  id="password"></input><br><br>
+   <center><button onclick="Register()">Register</button> <button onclick="Login()">Login</button></center>
+</td>
+</tr>
+<center><p></p></center>
+</table>
+<br><br><br>
+<center>
+    <table>
+        <thead>
+            <td>Nomor</td>
+            <td>Kegiatan</td>
+            <td>Hari</td>
+            <td>Gambar</td>
+            <td>Edit/delete</td>
+        </thead>
+        <tbody>
+
+        </tbody>
+        <tfoot>
+
+        </tfoot>
+    </table>
+
+<Center><h3></h3></Center>
+</center>
+
+
+
+
+
+
+</center>
+
+
+    <script>
+          class Id{
+              constructor(username,password,status){
+                  this.username=username,
+                  this.password=password
+                  this.status=status
+              }
+          }
+          class Data{
+              constructor(kegiatan,hari,gambar){
+                this.kegiatan=kegiatan
+              this.hari=hari
+              this.gambar=gambar
+            }  }
+
+          datauser=[
+             new Id('rico','11','user'),
+             new Id('admin','11','admin')
+          ]
+
+          listdata=[
+              new Data('Berenang','Selasa','https://cdn.idntimes.com/content-images/post/20191217/hanhanny-60841941-1963894330381469-3916423929361306297-n-c5f0d13e8dbd0a9f273e96f152872cbc_600x400.jpg'),
+              new Data('coding','jumat','https://panduanwisata.id/files/2012/08/sldaengnabactt.jpg')
+          ]
+let indexdelete=-2
+let indexedit=-1
+  const printuser=()=>{
+    
+               output=`
+               
+                    <p>Anda login sebagai user</p>
+                
+               `
+               
+               document.getElementsByTagName('p')[0].innerHTML=output
+               
+               output1=''
+               for(i=0;i<listdata.length;i++){
+                    output1+=`
+                    <tr>
+                        <td>${i+1}</td>
+                  <td>${listdata[i].kegiatan}</td>
+                  <td>${listdata[i].hari}</td>
+                  <td><img src=${listdata[i].gambar} height='250px'/></td>
+                     <tr>   
+                    
+                    `
+                    document.getElementsByTagName('tbody')[1].innerHTML=output1
+                     }
+           outputlogout=`
+                    <button onclick="Logout()">Logout</button>
+     `
+     document.getElementsByTagName('h3')[0].innerHTML=outputlogout
+                }
+                
+       const printadmin=()=>{
+      if(listdata.length===0){
+          document.getElementsByTagName('tbody')[1].innerHTML=''
+      }
+
+     
+
+               output=`
+               
+               <p>Anda login sebagai Admin</p>
+           
+          `
+          
+          
+          document.getElementsByTagName('p')[0].innerHTML=output
+
+          output1=''
+               for(i=0;i<listdata.length;i++){
+                if(i==indexedit){
+                 output1+=   `
+                                    <tr>
+                            <td>${i+1}</td>
+                            <td><input type="text" id="nama${i}"></td>
+                            <td>
+                                <select id="hari${i}">
+                                    <option> Senin</option>
+                                    <option> Selasa</option>
+                                    <option> Rabu</option>
+                                    <option> Kamis</option>
+                                    <option> Jumat</option>
+                                     </select>     </td> 
+                    <td><input type="text" id="gambar${i}"></td>
+                            <td><button onclick="Cancel()">Cancel</button><button onclick="Save(${i})">Save</button></td>
+                                 </tr>
+                                 
+                                 `
+               
+                    document.getElementsByTagName('tbody')[1].innerHTML=output1
+                    continue
+                }
+                
+               else if(i==indexdelete){
+                    output1 += `<tr>
+                            <td>${i+1}</td>
+                            <td>${listdata[i].kegiatan}</td>
+                            <td>${listdata[i].hari}</td>
+                            <td><img src=${listdata[i].gambar} height='250px'/></td>
+                            <td><button onclick="canceldelete()">cancel</button><button onclick="yesdelete(${i})">yes</button></td>
+                        </tr>`
+                          document.getElementsByTagName('tbody')[1].innerHTML=output1
+                          continue
+                }
+
+                output1+=`
+                    <tr>
+                        <td>${i+1}</td>
+                  <td>${listdata[i].kegiatan}</td>
+                  <td>${listdata[i].hari}</td>
+                  <td><img src=${listdata[i].gambar} height='250px'/></td>
+                  <td><button onclick="edit(${i})">Edit</button><button onclick="Deletes(${i})">Delete</button>
+                     <tr>   
+                        
+                    `
+                    
+                    document.getElementsByTagName('tbody')[1].innerHTML=output1
+
+                     }
+
+                   outputbawah= `       <tr>
+                <td></td>
+                                 <td><input type="text" id="tambahkegiatan"/></td>
+                             <td>
+                                <select id="tambahhari">
+                                    <option> Senin</option>
+                                    <option> Selasa</option>
+                                    <option> Rabu</option>
+                                    <option> Kamis</option>
+                                    <option> Jumat</option>
+                                </select>
+                            </td>
+                            <td><input type="text" id="tambahgambar"></td>
+                            <td><button onclick="tambahdata()">Tambahkan</button></td>
+                            </tr>
+                            `
+
+                        document.getElementsByTagName('tfoot')[0].innerHTML=outputbawah
+        
+                        outputlogout=`
+                    <button onclick="Logout()">Logout</button>
+     `
+     document.getElementsByTagName('h3')[0].innerHTML=outputlogout
+       }
+
+
+        const Login=()=>{
+            let usernameInput=document.getElementById('username').value
+           let passwordInput=document.getElementById('password').value
+        //    let inputnama=username
+        //    let inputpassword=password
+           console.log(datauser[0].username)
+           if(usernameInput==datauser[0].username&&passwordInput==datauser[0].password){
+              printuser()
+               }
+               
+               
+           
+           else if(usernameInput==datauser[1].username&&passwordInput==datauser[1].password){
+               printadmin()
+           }
+           else{
+               output=`
+                    <p>Username atau password yang anda masukkan salah</p>
+                
+               
+               `
+               document.getElementsByTagName('p')[0].innerHTML=output
+           }
+        }
+
+        const Deletes=(input)=>{
+         console.log(indexdelete)
+            indexdelete=input
+
+           printadmin()
+           
+            
+      
+          
+        }
+        const edit=(input)=>{
+            console.log(indexedit)
+    indexedit=input
+    
+    printadmin()
+}
+const Cancel=()=>{
+    indexedit=-1
+    printadmin()
+}
+const canceldelete=()=>{
+    indexdelete=-1
+    printadmin()
+}
+
+const yesdelete =(input)=>{
+    listdata.splice(input,1)
+    indexdelete=-1
+    printadmin()
+
+}
+
+const Save=(input)=>{
+    let editkegiatan=document.getElementById(`nama${input}`).value
+    let edithari=document.getElementById(`hari${input}`).value
+    let editgambar=document.getElementById(`gambar${input}`).value
+    if(editkegiatan){
+        listdata[input].kegiatan=editkegiatan
+        console.log(listdata)
+    }
+    if(edithari){
+        listdata[input].hari=edithari
+        console.log(listdata)
+    }
+    if(editgambar){
+        listdata[input].gambar=editgambar
+        console.log(listdata)
+    }
+    indexedit=-1
+    printadmin()
+
+}
+const tambahdata=()=>{
+   let kegiatanbaru= document.getElementById('tambahkegiatan').value
+   let haribaru= document.getElementById('tambahhari').value
+   let gambarbaru=document.getElementById('tambahgambar').value
+   listdata.push(new Data(kegiatanbaru,haribaru,gambarbaru))
+   console.log(listdata)
+   printadmin()
+
+}
+
+Logout=()=>{
+    var confirm1=confirm('apakah anda ingin logout?')
+    if(confirm){
+        document.getElementsByTagName('tbody')[1].innerHTML=''
+        document.getElementsByTagName('tfoot')[0].innerHTML=''
+        document.getElementsByTagName('h3')[0].innerHTML=''
+    }
+}
+
+
+
+
+
+
+
+
+
+        
+
+        </script>
+</body>
+</html>
